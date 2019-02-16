@@ -7,6 +7,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import ssm.dao.ShopDao;
 import ssm.dto.ShopExecution;
 import ssm.enums.ShopStateEnum;
+import ssm.exceptions.ShopOperationException;
 import ssm.model.Shop;
 import ssm.service.ShopService;
 import ssm.util.ImageUtil;
@@ -56,6 +57,40 @@ public class ShopServiceImpl implements ShopService {
         return new ShopExecution(ShopStateEnum.CHECK,shop);
     }
 
+    @Override
+    public Shop getByShopId(long shopId) {
+        return shopDao.queryByShopId(shopId);
+    }
+
+    @Override
+    public ShopExecution modifyShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException {
+        if(shop==null||shop.getShopId()==null){
+            return new ShopExecution(ShopStateEnum.NULL_SHOP);
+        }else {
+            //1.判断是否要处理图片
+            try{
+            if(shopImgInputStream!=null&&fileName!=null&&!"".equals(fileName)){
+                Shop tempShop=shopDao.queryByShopId(shop.getShopId());
+                if(tempShop.getShopImg()!=null){
+                    ImageUtil.deleteFileOrPath(tempShop.getShopImg());
+                }
+                addShopImg(shop,shopImgInputStream,fileName);
+            }
+        //2.更新店铺信息
+        shop.setLastEditTime(new Date());
+        int effectedNum=shopDao.updateShop(shop);
+                System.out.println("asfjahlfal"+effectedNum);
+        if(effectedNum<=0){
+            return new ShopExecution(ShopStateEnum.INNER_EORROR);
+        }else{
+            shop=shopDao.queryByShopId(shop.getShopId());
+            return new ShopExecution(ShopStateEnum.SUCCESS,shop);
+        }}catch(Exception e){
+                throw new ShopOperationException("modifyShop error:"+e.getMessage());
+            }
+        }
+    }
+
     private void addShopImg(Shop shop, InputStream shopImgInputStream,String fileName){
         //获取shop图片目录的相对值路径
         String dest= PathUtil.getShopImagePath(shop.getShopId());
@@ -63,3 +98,25 @@ public class ShopServiceImpl implements ShopService {
         shop.setShopImg(shpoImgAddr);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

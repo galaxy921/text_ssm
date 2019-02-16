@@ -31,7 +31,7 @@ public class ShopAdminController {
         this.shopService = shopService;
     }
 
-    @RequestMapping(value = "/getShopInitInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/getshopinitinfo",method = RequestMethod.GET)
     @ResponseBody
     private Map<String,Object> getShopInitInfo(){
         Map<String,Object> modelMap = new HashMap<String, Object>();
