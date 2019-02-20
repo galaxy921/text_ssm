@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -49,8 +50,27 @@ public class ShopDaoTest extends BaseTest{
 //        assertEquals(1,effectedNum);
     }
     @Test
+    public void testQueryShopList(){
+        Shop shopCondition =new Shop();
+        PersonInfo owner =new PersonInfo();
+        owner.setUserId(1L);
+        shopCondition.setOwner(owner);
+        List<Shop> shopList=shopDao.queryShopList(shopCondition,0,5);
+        int count=shopDao.queryShopCount(shopCondition);
+        System.out.println("店铺列表大小："+shopList.size());
+        System.out.println("店铺总数："+count);
+        ShopCategory sc=new ShopCategory();
+        sc.setShopCategoryId(1L);
+        shopCondition.setShopCategory(sc);
+        shopList=shopDao.queryShopList(shopCondition,0,2);
+        count=shopDao.queryShopCount(shopCondition);
+        System.out.println("xin店铺列表大小："+shopList.size());
+        System.out.println("xin店铺总数："+count);
+    }
+    @Test
+    @Ignore
     public void testQueryShopId(){
-        long shopId=15;
+        long shopId=1;
         Shop shop=shopDao.queryByShopId(shopId);
         System.out.println("areaId:"+shop.getArea().getAreaId());
         System.out.println("areaName:"+shop.getArea().getAreaName());
