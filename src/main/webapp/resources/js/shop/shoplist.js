@@ -7,7 +7,7 @@ $(function () {
             dataType:"json",
             success:function(data){
                 if(data.success){
-                    handleList(data.shopList);
+                    handleList(data.getShopList);
                     handleUser(data.user);
                 }
             }
@@ -21,11 +21,8 @@ $(function () {
     function handleList(data) {
     var html='';
     data.map(function (item,index) {
-        html += '<div class="row row-shop"><div class="col-40">'+ item.shopName +'</div><div class="col-40">'+ shopStatus(item.enableStatus)+'</div><div class="col-20">'+ goShop(item.enableStatus, item.shopId) +'</div></div>';
+        html += '<div class="row row-shop"><div class="col-40">'+ item.shopName +'</div><div class="col-40">'+ shopStatus(item.enableStatus)+'</div><div class="col-20">'+ goShop(item.enableStatus,item.shopId) +'</div></div>';
         alert(data.toString());
-        alert(item.shopName);
-        alert(item.enableStatus);
-        alert(item.userId);
     });
     $('shop-wrap').html(html);
 }
