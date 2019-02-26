@@ -1,6 +1,8 @@
 $(function () {
-    var shopId=getQueryString('shopId');
+
+    var shopId=getQueryString("shopId");
     var shopInfoUrl='/shopadmin/getshopmanagementinfo?shopId='+shopId;
+    alert(shopId);
     $.getJSON(shopInfoUrl,function (data) {
         if(data.redirect){
 

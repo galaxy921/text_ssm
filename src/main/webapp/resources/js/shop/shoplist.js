@@ -7,8 +7,9 @@ $(function () {
             dataType:"json",
             success:function(data){
                 if(data.success){
-                    handleList(data.getShopList);
+
                     handleUser(data.user);
+                    handleList(data.shopList);
                 }
             }
         });
@@ -22,9 +23,8 @@ $(function () {
     var html='';
     data.map(function (item,index) {
         html += '<div class="row row-shop"><div class="col-40">'+ item.shopName +'</div><div class="col-40">'+ shopStatus(item.enableStatus)+'</div><div class="col-20">'+ goShop(item.enableStatus,item.shopId) +'</div></div>';
-        alert(data.toString());
     });
-    $('shop-wrap').html(html);
+    $('.shop-wrap').html(html);
 }
     function goShop(status,id){
         if(status==1){

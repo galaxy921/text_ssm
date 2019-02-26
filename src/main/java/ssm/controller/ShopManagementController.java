@@ -25,6 +25,7 @@ import ssm.util.PathUtil;
 import sun.jvm.hotspot.runtime.ObjectMonitor;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +61,7 @@ public class ShopManagementController {
             Shop currentShop=new Shop();
             currentShop.setShopId(shopId);
             request.getSession().setAttribute("currentShop",currentShop);
+            System.out.println("000000"+currentShop.getShopName());
             modelMap.put("redirect",false);
         }
         return modelMap;
